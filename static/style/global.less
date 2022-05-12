@@ -1,0 +1,302 @@
+#newtasklist {
+  .inputdiv {
+    display: flex;
+    align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center; /*定义body的里的元素水平居中*/
+    width: 100%;
+
+    background-color: #e6e6e6;
+    .van-search {
+      width: 100%;
+      width: 100%;
+
+      .van-search__action {
+        font-size: 0.6rem;
+        line-height: 1rem;
+        .van-button {
+          height: 1.8rem;
+          .van-button__text {
+            font-size: 0.7rem;
+          }
+        }
+      }
+      .van-search__action {
+        .van-button--normal {
+          border-radius: 0.33rem;
+          .van-button__text {
+            color: #409eff;
+          }
+        }
+      }
+      .van-search__content--round {
+        border-radius: 0.33rem;
+      }
+      .van-search__content {
+        .van-cell {
+          height: 2rem;
+          line-height: 1.8rem;
+          font-size: 0.9rem;
+          .van-field__left-icon {
+            .van-icon {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  .van-dialog__content {
+    padding: 0 0.5rem;
+    .van-cell {
+      .van-cell__value {
+        .van-field__body {
+          .van-field__control {
+            padding: 0.33rem !important;
+            height: 5rem !important;
+            font-size: 1rem !important;
+          }
+          .van-field__right-icon {
+            .van-icon {
+              font-size: 1rem !important;
+              color: #409efe;
+            }
+          }
+        }
+      }
+    }
+  }
+  // padding: 0.33rem;
+  .renwucontent {
+    margin-top: 0.67rem;
+    background-color: #fff;
+    padding: 0.33rem 20px;
+    border-radius: 0.33rem;
+    .btem {
+      display: flex;
+      margin-left: 0.33rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .btem1 {
+        max-width: 50%;
+        font-size: 0.83rem;
+        overflow: hidden;
+        color: #606266;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .btem2 {
+        max-width: 50%;
+        font-size: 0.83rem;
+        color: #606266;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .item_heard {
+      display: flex;
+      justify-content: space-between;
+      line-height: 2.33rem;
+      font-size: 1rem;
+      color: #3b4045;
+      align-items: center;
+      .item_name {
+        margin: 0.33rem 0;
+        width: 60%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .item_img {
+        display: flex;
+        align-items: center;
+        font-size: 1.17rem;
+        img {
+          border-radius: 50%;
+          width: 2.33rem;
+          height: 2.33rem;
+          margin-right: 0.33rem;
+        }
+        span {
+          font-size: 0.83rem;
+          display: inline-block;
+          border-radius: 50%;
+          width: 2.33rem;
+          height: 2.33rem;
+          line-height: 2.33rem;
+          text-align: center;
+          background-color: #387ef5;
+          color: #fff;
+        }
+        .item_img_title {
+          line-height: 1.17rem;
+          .item_img_title1 {
+            color: #000000;
+            font-weight: 600;
+          }
+
+          .item_img_title2 {
+            font-size: 0.67rem;
+            color: #9f99a1;
+          }
+        }
+      }
+    }
+    .item_time {
+      font-size: 1rem;
+      color: #3b4045;
+      margin: 0.33rem 0;
+    }
+    .fenge {
+      border-bottom: 0.03rem solid #eeeff3;
+      margin-top: 0.5rem;
+    }
+    .item_bottom {
+      padding: 0.5rem;
+      display: flex;
+      color: #485985;
+      align-items: center;
+    }
+  }
+  // .renwucontent {
+  //     margin-top: 0.67rem;
+  //     background-color: #fff;
+  //     padding: 0.33rem 20px;
+  //     border-radius: 0.33rem;
+  //     .item_heard {
+  //         display: flex;
+  //         justify-content: space-between;
+  //         line-height: 2.33rem;
+  //         font-size: 0.83rem;
+  //         color: #3b4045;
+  //         align-items: center;
+  //         .item_name {
+  //             margin: 0.33rem 0;
+  //             width: 60%;
+  //             overflow: hidden;
+  //             text-overflow: ellipsis;
+  //             white-space: nowrap;
+  //         }
+  //         .item_img {
+  //             display: flex;
+  //             align-items: center;
+  //             font-size: 1rem;
+  //             img {
+  //                 width: 1.33rem;
+  //                 height: 1.33rem;
+  //                 margin-right: 0.33rem;
+  //             }
+  //         }
+  //     }
+  //     .item_time {
+  //         font-size: 0.83rem;
+  //         color: #e6e6e6;
+  //         margin: 0.33rem 0;
+  //     }
+  // }
+
+  .addrenwu {
+    position: fixed;
+    width: 30%;
+    bottom: 15%;
+    left: 35%;
+    text-align: center;
+    img {
+      width: 3.33rem;
+      height: 3.33rem;
+    }
+  }
+  .van-popup {
+    .sureBtn {
+      position: absolute;
+      bottom: 0.67rem;
+      width: 100%;
+
+      margin-bottom: 0.67rem;
+      margin-top: 1rem;
+      height: 2.67rem;
+      line-height: 2.67rem;
+      text-align: center;
+
+      overflow: hidden;
+      .van-button {
+        width: 40%;
+        height: 100%;
+        border-radius: 0.27rem;
+        span {
+          font-size: 1rem;
+        }
+      }
+    }
+    .zstype {
+      width: 100%;
+      height: 80%;
+      overflow: auto;
+
+      background-color: #fff;
+      .van-cell {
+        padding: 0 0.5rem;
+        height: 3.33rem;
+        .van-cell__title {
+          height: 100%;
+          line-height: 3.33rem;
+          font-size: 1rem;
+          padding-left: 0.33rem;
+        }
+        .van-cell__value {
+          .van-field__body {
+            height: 100%;
+            line-height: 3.33rem;
+            .van-field__control {
+              font-size: 1rem !important;
+              line-height: 1rem !important;
+              color: #000;
+            }
+          }
+        }
+      }
+
+      .typetitle {
+        display: flex;
+        width: 100%;
+
+        align-items: center; /*定义body的元素垂直居中*/
+        // justify-content: center; /*定义body的里的元素水平居中*/
+        padding: 1rem;
+        box-sizing: border-box;
+        .titlepoint {
+          width: 1rem;
+          height: 1rem;
+          border-radius: 50%;
+          background-color: #409efe;
+        }
+        .titlefont {
+          margin-left: 0.67rem;
+          color: #191f25;
+          font-size: 0.93rem;
+        }
+      }
+      .typecontent {
+        margin: 1.5%;
+        width: 30%;
+        float: left;
+        height: 2.33rem;
+        background-color: #f4f4f4;
+        border-radius: 0.33rem;
+
+        font-size: 0.93rem;
+        text-align: center;
+
+        line-height: 2.33rem;
+
+        color: #7a7d81;
+      }
+    }
+  }
+  .typeColor {
+    background-color: #409efe !important;
+    color: #fff !important;
+  }
+}

@@ -1,0 +1,688 @@
+<template>
+  <!--  -->
+  <div id="Module">
+    <div class="Commonly">
+      <div class="Commonly_item1">
+        <div class="color_div"></div>
+        <div class="color_font">常用应用</div>
+      </div>
+      <div class="Commonly_item4">
+        <div class="Commonly_item2">
+          <img v-for="item in selecimg" :src="item" alt="" />
+        </div>
+        <div class="Commonly_item3" @click="edit">
+          <van-button v-if="editshow" type="info">保存</van-button>
+          <van-button v-else type="info">编辑</van-button>
+        </div>
+      </div>
+    </div>
+    <div class="collapse2" v-if="editshow">
+      <div class="van-collapse">
+        <div class="van-collapse-item">
+          <div class="van-collapse-item__wrapper">
+            <div class="van-collapse-item__content">
+              <div
+                class="active-item changcolor"
+                v-for="(item1, index1) in selectedList"
+                :key="index1"
+                @click="remove(item1)"
+              >
+                <img
+                  class="jianicon"
+                  src="http://compressdk.oss-cn-shanghai.aliyuncs.com/user-dir/8xAXAGd3Pm1605147979042.png"
+                  alt=""
+                />
+                <div>
+                  <img :src="item1.imgsrc" alt />
+                  <div style="text-align: center">
+                    {{ item1.name }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="num_title">
+      <div class="color_div"></div>
+      <div class="color_font">全部应用</div>
+    </div>
+    <div class="collapse1">
+      <van-tabs v-model="active" swipeable animated>
+        <van-tab
+          v-for="(item2, index) in shijianImg"
+          :title="item2.name"
+          :key="item2 + index"
+        >
+          <div class="van-collapse">
+            <div class="van-collapse-item">
+              <div class="van-cell">
+                <div class="van-cell__title">
+                  <span>{{ item2.name }}</span>
+                </div>
+              </div>
+              <div class="van-collapse-item__wrapper">
+                <div class="van-collapse-item__content">
+                  <div
+                    class="active-item"
+                    v-for="(item1, index1) in item2.itemlist"
+                    :key="index1"
+                    :class="editshow == true ? 'changcolor' : ''"
+                    @click="addition(item1, index1)"
+                  >
+                    <div v-if="editshow">
+                      <img
+                        v-if="item1.isselected == 0"
+                        class="jianicon"
+                        src="http://compressdk.oss-cn-shanghai.aliyuncs.com/user-dir/Nd4R3Br7na1605147942515.png"
+                        alt=""
+                      />
+                      <img
+                        v-else
+                        class="jianicon"
+                        src="http://compressdk.oss-cn-shanghai.aliyuncs.com/user-dir/8xAXAGd3Pm1605147979042.png"
+                        alt=""
+                      />
+                    </div>
+
+                    <div>
+                      <img :src="item1.imgsrc" alt />
+                      <div style="text-align: center">
+                        {{ item1.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </van-tab>
+      </van-tabs>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as dd from "dingtalk-jsapi";
+import { Toast } from "vant";
+import qs from "qs";
+export default {
+  name: "Module",
+  components: {},
+  data() {
+    return {
+      newname: "",
+      activeNames: [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+        20,
+      ],
+      editshow: false,
+      selecimg: [],
+      selectedList: [],
+      shijianImg: [],
+
+      // "http://compressdk.oss-cn-shanghai.aliyuncs.com/user-dir/Nd4R3Br7na1605147942515.png" 加号
+      // "http://compressdk.oss-cn-shanghai.aliyuncs.com/user-dir/8xAXAGd3Pm1605147979042.png"
+    };
+  },
+  computed: {},
+  watch: {
+    $route(to, from) {
+      if (to.name == "Module") {
+        // this.stop();
+      } else {
+        // this.move();
+      }
+      console.log(to, from);
+      // to , from 分别表示从哪跳转到哪，都是一个对象
+      // to.path  ( 表示的是要跳转到的路由的地址 eg: /home );
+    },
+  },
+  methods: {
+    setTitle() {
+      dd.ready(function () {
+        dd.biz.navigation.setTitle({
+          title: "应用中心", //控制标题文本，空字符串表示显示默认文本
+          onSuccess: function (result) {},
+          onFail: function (err) {},
+        });
+      });
+    },
+    // 编辑 保存
+    edit() {
+      if (this.editshow == true) {
+        this.editshow = false;
+      } else {
+        this.editshow = true;
+      }
+    },
+    //常用分类删除
+    remove(item) {
+      if (this.selectedList.length < 2) {
+        Toast("最少需设置一个常用应用！");
+      } else {
+        this.$axios
+          .post("/mobile/commonlyTypeDel", {
+            id: item.id,
+          })
+          .then((res) => {
+            this.getcyList();
+            this.getTypeAllList();
+          });
+      }
+    },
+    //分类添加
+    addType(item) {
+      this.$axios
+        .post("/mobile/commonlyTypeAdd", {
+          cid: item.id,
+        })
+        .then((res) => {
+          this.getcyList();
+          this.getTypeAllList();
+        });
+    },
+    getList(tag) {
+      console.log("1");
+      this.$axios
+        .post("/projectthree/banZuList", {
+          page: 1,
+          number: 9999,
+          name: "",
+        })
+        .then((res) => {
+          if (res.data.code == 1) {
+            // this.workList = res.data.data;
+
+            this.$store.commit("setworklist", res.data.data);
+            // this.move();
+            this.$router.push({
+              path: tag.router,
+              query: {
+                itemdata: tag,
+              },
+            });
+          } else {
+            Toast(res.data.msg);
+          }
+        });
+    },
+    creatin(pathname) {
+      const _this = this;
+      console.log(_this.datainfo);
+
+      _this.$axios.post(pathname).then((res) => {
+        if (res.data.code == 1) {
+          if (res.data.content) {
+            var openurl =
+              "https://aflow.dingtalk.com/dingtalk/mobile/homepage.htm?dd_share=true&showmenu=false&dd_progress=false&corpid=" +
+              _this.$store.state.userData.cid +
+              "&swfrom=qrshareh5&tempalteName=" +
+              "劳务合同变更签证" +
+              "&processCode=" +
+              res.data.content.process_code +
+              "&back=native#/custom";
+
+            dd.ready(function () {
+              dd.biz.util.openLink({
+                url: openurl, //要打开链接的地址
+                onSuccess: function (result) {
+                  /**/
+                },
+                onFail: function (err) {},
+              });
+            });
+          } else {
+            var openurl =
+              "https://aflow.dingtalk.com/dingtalk/mobile/homepage.htm?dd_share=true&showmenu=false&dd_progress=false&corpid=" +
+              _this.$store.state.userData.cid +
+              "&swfrom=qrshareh5&tempalteName=" +
+              res.data.name_mould +
+              "&processCode=" +
+              res.data.data +
+              "&back=native#/custom";
+
+            dd.ready(function () {
+              dd.biz.util.openLink({
+                url: openurl, //要打开链接的地址
+                onSuccess: function (result) {
+                  /**/
+                },
+                onFail: function (err) {},
+              });
+            });
+          }
+        } else {
+          Toast(res.data.msg);
+        }
+      });
+    },
+    logcreatin(logname) {
+      const _this = this;
+
+      // if (logname == '项目经理日志列表') {
+      //     _this.newname = '项目经理日志';
+      // } else if (logname == '机长日志列表') {
+      //     _this.newname = '机长日志';
+      // } else {
+
+      // }
+      _this.newname = logname;
+      _this.$axios
+        .post("/journal/logapproval", {
+          tmpname: _this.newname,
+        })
+        .then((res) => {
+          _this.openurl =
+            "https://aflow.dingtalk.com/dingtalk/mobile/homepage.htm?dd_share=true&showmenu=false&dd_progress=false&corpid=" +
+            _this.$store.state.userData.cid +
+            "&swfrom=qrshareh5&tempalteName=" +
+            _this.newname +
+            "&processCode=" +
+            res.data.process_code +
+            "&back=native#/custom";
+
+          dd.ready(function () {
+            dd.biz.util.openLink({
+              url: _this.openurl, //要打开链接的地址
+              onSuccess: function (result) {
+                /**/
+              },
+              onFail: function (err) {},
+            });
+          });
+        });
+    },
+    //添加选中
+    addition(tag, value) {
+      console.log(tag, value);
+      if (this.editshow == false) {
+        if (tag.name == "工人记工") {
+          this.getList(tag);
+        }
+        //  else if (tag.extend_five == '/project/projectInfoRegister') {
+        //     if (window.location.protocol == 'http:') {
+        //         this.$router.push({
+        //             path: '/approvalindexcreat',
+        //             query: {
+        //                 val: 1
+        //             }
+        //         });
+        //     } else if (window.location.protocol == 'https:') {
+        //         if (
+        //             this.$store.state.userData.cid ==
+        //                 'dingdd959e3808ad2bed24f2f5cc6abecb85' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingd7f9bd07f18895b0ee0f45d8e4f7c288' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingea47c602975497f935c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding24b0a10f13da969135c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding5ce1bcef4579bcdf35c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingd30c4b1d885b113535c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding9dda1bc098c43c3dbc961a6cb783455b' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingb5e20326100374f635c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dinga472dd9a04a5220dacaaa37764f94726' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding677361e6ae1de97f4ac5d6980864d335' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding62b1cd84850bc54cee0f45d8e4f7c288' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding8cb64abceefc931cee0f45d8e4f7c288' ||
+        //             this.$store.state.userData.cid == 'ding4c509a571b2d7743' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dinge59922d01af105b3f2c783f7214b6d69' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingc0c9438d2b30be0535c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid == 'ding7517cde21d8c7016' ||
+        //             this.$store.state.userData.cid ==
+        //                 'ding9e3fe0f56650d7ca35c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingaa0c69644a2683e7a1320dcb25e91351' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingf32441c8e4c7501b35c2f4657eb6378f' ||
+        //             this.$store.state.userData.cid ==
+        //                 'dingd30c4b1d885b113535c2f4657eb6378f'
+        //         ) {
+        //             this.creatin(tag.extend_five);
+        //         } else {
+        //             this.$router.push({
+        //                 path: tag.router,
+        //                 query: {
+        //                     itemdata: tag
+        //                 }
+        //             });
+        //         }
+        //     }
+        // }
+        else if (tag.router == "/loglist") {
+          this.logcreatin(tag.name);
+        } else if (tag.router == "/service_system") {
+          this.$router.push({
+            path: "/service_systemcreat",
+          });
+        } else if (tag.router == "/jilog") {
+          this.$router.push({
+            path: "/jilog",
+          });
+        } else if (tag.router == "/gongcheng") {
+          this.$router.push({
+            path: "/gongcheng",
+          });
+        } else if (
+          tag.router == "/lichindex" ||
+          tag.router == "/jinduplanindex" ||
+          tag.router == "/jinduindex" ||
+          tag.router == "/milepost" ||
+          tag.router == "/receivingList" ||
+          tag.router == "/implementList" ||
+          tag.router == "/approvalindex" ||
+          tag.router == "/informationindex"
+        ) {
+          this.$router.push({
+            path: tag.router,
+            query: {
+              itemdata: tag,
+            },
+          });
+        } else {
+          this.creatin(tag.extend_five);
+        }
+        //  else {
+        //     this.$router.push({
+        //         path: tag.router,
+        //         query: {
+        //             itemdata: tag
+        //         }
+        //     });
+        // }
+
+        console.log(tag);
+      } else {
+        console.log("22");
+        this.addType(tag);
+
+        // if (this.selectedList.length < 7) {
+        //     this.addType(tag);
+
+        // } else {
+        //     Toast('最多可设置7个常用应用');
+        // }
+      }
+    },
+    //所有分类列表
+    getTypeAllList() {
+      this.$axios.post("/mobile/commonlyTypeAllList").then((res) => {
+        this.shijianImg = res.data.data;
+      });
+    },
+    //常用分类列表
+    getcyList() {
+      this.$axios.post("/mobile/commonlyTypeList").then((res) => {
+        if (res.data.code == 1) {
+          this.selectedList = res.data.data;
+          this.selecimg = res.data.data
+            .map((item) => {
+              return item.imgsrc;
+              ``;
+            })
+            .splice(0, 6);
+
+          console.log(this.selecimg);
+        }
+      });
+    },
+    stop() {
+      document.body.style.overflow = "hidden"; //禁止页面划动
+      document.body.style.backgroundColor = "#fff"; //禁止页面划动
+    },
+    move() {
+      document.body.style.overflow = ""; //出现滚动条
+      document.body.style.backgroundColor = "#fff"; //禁止页面划动
+    },
+    getxmList() {
+      this.$axios.post("/project/projectInfoRegisterZbList").then((res) => {
+        let xmlist = res.data.data;
+        this.$store.commit("setSelecteddata", xmlist[0]);
+        this.$store.commit("setlcxminfo", xmlist[0]);
+      });
+    },
+  },
+  activated() {
+    // this.stop();
+    this.$utils.checkding();
+    this.getxmList();
+    this.setTitle();
+    this.getcyList();
+    this.getTypeAllList();
+  },
+  // destroyed() {
+  //     console.log('likai+++++++++++++++++++');
+  //     // this.move();
+  // },
+  mounted() {},
+};
+</script>
+<style lang='less' >
+#Module {
+  overflow: hidden;
+  .van-sticky {
+    background-color: #fff;
+  }
+  .Commonly {
+    // display: flex;
+    // justify-content: space-around;
+    // align-items: center;
+    padding: 0.33rem 0;
+    background-color: #fff;
+    margin-bottom: 0.33rem;
+    .Commonly_item1 {
+      padding: 0.67rem 0;
+      background-color: #fff;
+      line-height: 2rem;
+      color: #000;
+      font-size: 1.17rem;
+      font-weight: 600;
+      padding-left: 0.67rem;
+      display: flex;
+      .color_div {
+        width: 0.33rem;
+        height: 1.17rem;
+        background: #0089ff;
+        border-radius: 0.13rem;
+      }
+      .color_font {
+        margin-left: 0.47rem;
+        // width: 119px;
+        height: 0.97rem;
+        font-size: 1rem;
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: #333333;
+        line-height: 1.17rem;
+      }
+    }
+    .Commonly_item4 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .Commonly_item2 {
+        padding-left: 0.5rem;
+        width: 70%;
+        line-height: 1rem;
+        img {
+          width: 1.9rem;
+          height: 1.9rem;
+          margin: 0 10px;
+        }
+      }
+      .Commonly_item3 {
+        width: 15%;
+        .van-button {
+          width: 3rem;
+          height: 1.33rem;
+          line-height: 1.33rem !important;
+          font-size: 0.67rem;
+          border-radius: 0.33rem;
+          padding: inherit;
+        }
+      }
+    }
+  }
+  .active-item {
+    border-radius: 0.43rem;
+    width: 22%;
+    margin: 1%;
+    padding: 0.5rem 0px;
+    display: flex;
+    // align-items: center; /*定义body的元素垂直居中*/
+    justify-content: center;
+    text-align: center;
+
+    font-size: 0.77rem;
+    font-family: PingFang SC;
+
+    color: #666666;
+    position: relative;
+    img {
+      width: 2.6rem;
+      height: 2.6rem;
+      margin-bottom: 0.33rem;
+    }
+    .jianicon {
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      top: 0.33rem;
+      right: 0.33rem;
+    }
+  }
+  .num_title {
+    // margin-top: 0.33rem;
+    padding: 0.67rem 0;
+    background-color: #fff;
+    line-height: 2rem;
+    color: #000;
+
+    // border-bottom: 0.03rem solid #eceeed;
+    padding-left: 0.67rem;
+    display: flex;
+    .color_div {
+      width: 0.33rem;
+      height: 1.17rem;
+      background: #0089ff;
+      border-radius: 0.13rem;
+    }
+    .color_font {
+      margin-left: 0.47rem;
+      // width: 119px;
+      height: 0.97rem;
+      font-size: 1rem;
+      font-family: PingFang SC;
+      font-weight: bold;
+      color: #333333;
+      line-height: 1.17rem;
+    }
+  }
+  // .van-sticky {
+  // .van-collapse {
+  //     .van-collapse-item {
+  //         margin-top: 0px;
+  //         .van-cell {
+  //             display: none;
+  //         }
+  //         .van-collapse-item__wrapper {
+  //             .van-collapse-item__content {
+  //                 display: flex;
+  //                 flex-wrap: wrap;
+  //             }
+  //         }
+  //     }
+
+  .collapse2 {
+    max-height: 16.5rem;
+    overflow-y: scroll;
+    margin-bottom: 0.16rem;
+    // background-color: #fff;
+    // padding: 0.33rem 0;
+    box-sizing: border-box;
+
+    .van-collapse {
+      .van-collapse-item {
+        margin-top: 0px;
+        .van-cell {
+          display: none;
+        }
+        .van-collapse-item__wrapper {
+          .van-collapse-item__content {
+            display: flex;
+            flex-wrap: wrap;
+          }
+        }
+      }
+    }
+  }
+
+  .collapse1 {
+    margin-bottom: 0.16rem;
+    // background-color: #fff;
+    // padding: 0.33rem 0;
+    box-sizing: border-box;
+    .van-tabs {
+      .van-tabs__content {
+        .van-tab__pane {
+          .van-collapse {
+            .van-collapse-item {
+              margin-top: 0px;
+              .van-cell {
+                display: none;
+              }
+              .van-collapse-item__wrapper {
+                .van-collapse-item__content {
+                  max-height: 25rem;
+                  overflow-y: scroll;
+                  display: flex;
+                  flex-wrap: wrap;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .van-tabs__wrap {
+        height: 2.5rem;
+        .van-tabs__nav {
+          .van-tabs__line {
+            background-color: #0089ff;
+          }
+          .van-tab--active {
+            color: #0089ff !important;
+            .van-tab__text {
+              font-size: 1rem;
+              line-height: 1rem;
+              color: #0089ff !important;
+            }
+          }
+          .van-tab {
+            .van-tab__text {
+              font-size: 1rem;
+              line-height: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  .changcolor {
+    background-color: #f7f8fd;
+  }
+}
+</style>
