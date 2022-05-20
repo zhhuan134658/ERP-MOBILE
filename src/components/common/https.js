@@ -98,21 +98,20 @@ axios.defaults.withCredentials = true;
 //   'application/x-www-form-urlencoded;charset=UTF-8';
 
 // post传参序列化
-const interceptor = axios.interceptors.request.use(
-  function(config) {
-    // Do something before request is sent
-    // console.log(config)
-    if (config.method == "post") {
-      config.data = qs.stringify(config.data);
-    }
-    return config;
-  },
-  function(error) {
-    console.log(error);
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+const interceptor = axios.interceptors.request
+  .use
+  //   function(config) {
+  //     if (config.method == "post") {
+  //       config.data = qs.stringify(config.data);
+  //     }
+  //     return config;
+  //   },
+  //   function(error) {
+  //     console.log(error);
+
+  //     return Promise.reject(error);
+  //   }
+  ();
 window.sessionStorage.setItem("interceptorId", interceptor);
 //添加请求拦截器
 // axios.interceptors.request.use(
@@ -147,4 +146,3 @@ axios.interceptors.response.use(
 
 export default axios;
 export { interceptor };
-

@@ -309,103 +309,23 @@ export default {
       if (tag.name == "查看更多应用") {
         this.$router.push({ path: "/Module" });
       } else {
-        if (tag.name == "工人记工") {
-          this.getList(tag);
-        }
-        //  else if (tag.extend_five == '/project/projectInfoRegister') {
-        //     if (window.location.protocol == 'http:') {
-        //         this.$router.push({
-        //             path: '/approvalindexcreat',
-        //             query: {
-        //                 val: 1
-        //             }
-        //         });
-        //     } else if (window.location.protocol == 'https:') {
-        //         if (
-        //             this.$store.state.userData.cid ==
-        //                 'dingdd959e3808ad2bed24f2f5cc6abecb85' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingd7f9bd07f18895b0ee0f45d8e4f7c288' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingea47c602975497f935c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding24b0a10f13da969135c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding5ce1bcef4579bcdf35c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingd30c4b1d885b113535c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding9dda1bc098c43c3dbc961a6cb783455b' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingb5e20326100374f635c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dinga472dd9a04a5220dacaaa37764f94726' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding677361e6ae1de97f4ac5d6980864d335' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding62b1cd84850bc54cee0f45d8e4f7c288' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding8cb64abceefc931cee0f45d8e4f7c288' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding4c509a571b2d7743' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dinge59922d01af105b3f2c783f7214b6d69' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingc0c9438d2b30be0535c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding7517cde21d8c7016' ||
-        //             this.$store.state.userData.cid ==
-        //                 'ding9e3fe0f56650d7ca35c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingaa0c69644a2683e7a1320dcb25e91351' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingf32441c8e4c7501b35c2f4657eb6378f' ||
-        //             this.$store.state.userData.cid ==
-        //                 'dingd30c4b1d885b113535c2f4657eb6378f'
-        //         ) {
-        //             this.creatin(tag.extend_five);
-        //         } else {
-        //             this.$router.push({
-        //                 path: tag.router,
-        //                 query: {
-        //                     itemdata: tag
-        //                 }
-        //             });
-        //         }
-        //     }
-        // }
-        else if (tag.router == "/loglist") {
-          this.logcreatin(tag.name);
-        } else if (tag.router == "/service_system") {
-          this.$router.push({
-            path: "/service_systemcreat",
-          });
-        } else if (tag.router == "/jilog") {
-          this.$router.push({
-            path: "/jilog",
-          });
-        } else if (tag.router == "/gongcheng") {
-          this.$router.push({
-            path: "/gongcheng",
-          });
-        } else if (
-          tag.router == "/lichindex" ||
-          tag.router == "/jinduplanindex" ||
-          tag.router == "/jinduindex" ||
-          tag.router == "/milepost" ||
-          tag.router == "/receivingList" ||
-          tag.router == "/implementList" ||
-          tag.router == "/approvalindex" ||
-          tag.router == "/informationindex"
+        if (
+          tag.extend_two == "/approvalindexcreat" ||
+          tag.extend_two == "/assetListform" ||
+          tag.extend_two == "/diaoboform" ||
+          tag.extend_two == "/Distributedindex" ||
+          tag.extend_two == "/lendListindex" ||
+          tag.extend_two == "/InventoryList" ||
+          tag.extend_two == "/disposalList"
         ) {
           this.$router.push({
-            path: tag.router,
+            path: tag.extend_two,
             query: {
               itemdata: tag,
             },
           });
         } else {
-          this.creatin(tag.extend_five);
+          this.creatin(tag.extend_three);
         }
       }
     },
@@ -508,7 +428,7 @@ export default {
 
     //常用分类列表
     getcyList() {
-      this.$axios.post("/mobile/commonlyTypeList").then((res) => {
+      this.$axios.post("/erp_check/changyongphoneroles").then((res) => {
         if (res.data.code == 1) {
           this.shijianImg = res.data.data.concat(this.moreitem);
           // this.shijianImg = this.shijianImg.;

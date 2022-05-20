@@ -2,6 +2,22 @@ import axios from "axios";
 import * as dd from "dingtalk-jsapi";
 import store from "../../vuex/store.js";
 export default {
+  async commonAllPro() {
+    try {
+      const res = await axios.post("/project/projectInfoRegisterZbList");
+      return res.data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async commonAlltouSupplier() {
+    try {
+      const res = await axios.post("/project/supplierInfoList");
+      return res.data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
   // 时间戳转日期
   formateTime: function(time) {
     let date;

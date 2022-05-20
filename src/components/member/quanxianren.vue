@@ -59,9 +59,9 @@ export default {
   methods: {
     goInfo(item) {
       this.$axios
-        .post("/finance/ryqx_del", {
-          userid: item.userid,
-          j_id: this.$route.query.val.id,
+        .post("/erp_check/roleuserdelete", {
+          users: [item.emplId],
+          id: this.$route.query.val.id,
         })
         .then((res) => {
           if (res.data.code == 1) {
@@ -152,12 +152,12 @@ export default {
     getInfo() {
       this.FilesList = [];
       this.$axios
-        .post("/finance/rolemember", {
+        .post("/erp_check/roleuserlist", {
           id: this.$route.query.val.id,
         })
         .then((res) => {
           if (res.data.code == 1) {
-            this.FilesList = res.data.content;
+            this.FilesList = res.data.data;
           } else {
             Toast(res.data.msg);
           }

@@ -327,23 +327,28 @@ export default {
     },
     //所有分类列表
     getTypeAllList() {
-      this.$axios.post("/mobile/commonlyTypeAllList").then((res) => {
-        // this.allList = res.data.data;
+      this.$axios
+        .post("/erp_check/phoneroles", {
+          corp_id: this.$store.state.userData.cid,
+          userid: this.$store.state.userData.userid,
+        })
+        .then((res) => {
+          // this.allList = res.data.data;
 
-        for (var i = 0; i < res.data.data.length; i++) {
-          for (var j = 0; j < res.data.data[i].itemlist.length; j++) {
-            this.allList.push(res.data.data[i].itemlist[j]);
+          for (var i = 0; i < res.data.data.length; i++) {
+            for (var j = 0; j < res.data.data[i].itemlist.length; j++) {
+              this.allList.push(res.data.data[i].itemlist[j]);
+            }
           }
-        }
-        this.allList = this.namelist.concat(this.allList);
+          this.allList = this.namelist.concat(this.allList);
 
-        // this.allList = res.data.data.map((item) => {
-        //     item.itemlist.map((item1) => {
-        //         return item1.name;
-        //     });
-        // });
-        console.log(this.allList);
-      });
+          // this.allList = res.data.data.map((item) => {
+          //     item.itemlist.map((item1) => {
+          //         return item1.name;
+          //     });
+          // });
+          console.log(this.allList);
+        });
     },
     //抄送我的状态修改已读
     getUseridStatus(itemdata) {
@@ -364,6 +369,135 @@ export default {
 </script>
 <style lang='less' >
 #personnelindex {
+  .renwucontent {
+    margin-top: 0.67rem;
+    background-color: #fff;
+    padding: 0.33rem 20px;
+    border-radius: 0.33rem;
+    position: relative;
+    .ready {
+      position: absolute;
+      right: 0.67rem;
+      top: 4rem;
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+    .btem {
+      display: flex;
+      margin-left: 0.33rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.33rem;
+
+      .btem1 {
+        max-width: 50%;
+        font-size: 0.83rem;
+        overflow: hidden;
+        color: #9a9a9a;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .btem2 {
+        max-width: 50%;
+        font-size: 0.83rem;
+        color: #9a9a9a;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .item_heard {
+      line-height: 1.67rem;
+      font-size: 1rem;
+      color: #323232;
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      .item_heard_title {
+        font-size: 1.17rem;
+        font-weight: 600;
+        width: 70%;
+      }
+    }
+    .item_time {
+      font-size: 1rem;
+      color: #3b4045;
+      margin: 0.33rem 0;
+    }
+    .fenge {
+      border-bottom: 0.03rem solid #eeeff3;
+      margin-top: 0.5rem;
+    }
+    .item_bottom {
+      padding: 0.5rem;
+      display: flex;
+      color: #485985;
+      align-items: center;
+    }
+    .newbottom {
+      margin-top: 0.67rem;
+      display: flex;
+      justify-content: space-between;
+      .item_img {
+        // display: flex;
+        // align-items: center;
+        font-size: 1.17rem;
+        width: 80%;
+        img {
+          border-radius: 50%;
+          width: 2.67rem;
+          height: 2.67rem;
+          margin-right: 0.33rem;
+        }
+        span {
+          font-size: 0.83rem;
+          display: inline-block;
+          border-radius: 50%;
+          width: 2.67rem;
+          height: 2.67rem;
+          line-height: 2.67rem;
+          text-align: center;
+          background-color: #387ef5;
+          color: #fff;
+        }
+
+        color: #000000;
+
+        .newbottom_item {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          font-size: 0.83rem;
+          img {
+            border-radius: 50%;
+            width: 1.67rem;
+            height: 1.67rem;
+            margin-right: 0.33rem;
+          }
+          span {
+            font-size: 0.67rem;
+            display: inline-block;
+            border-radius: 50%;
+            width: 1.67rem;
+            height: 1.67rem;
+            line-height: 1.67rem;
+            text-align: center;
+            background-color: #387ef5;
+            color: #fff;
+          }
+
+          .item_img_title2 {
+            font-size: 0.67rem;
+            color: #9f99a1;
+          }
+        }
+      }
+    }
+  }
   .van-popup {
     .typecontent {
       margin: 1.5%;
@@ -540,135 +674,6 @@ export default {
         margin-left: 0.67rem;
         color: #191f25;
         font-size: 0.93rem;
-      }
-    }
-  }
-  .renwucontent {
-    margin-top: 0.67rem;
-    background-color: #fff;
-    padding: 0.33rem 20px;
-    border-radius: 0.33rem;
-    position: relative;
-    .ready {
-      position: absolute;
-      right: 0.67rem;
-      top: 4rem;
-      img {
-        width: 2rem;
-        height: 2rem;
-      }
-    }
-    .btem {
-      display: flex;
-      margin-left: 0.33rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      line-height: 1.33rem;
-
-      .btem1 {
-        max-width: 50%;
-        font-size: 0.83rem;
-        overflow: hidden;
-        color: #9a9a9a;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .btem2 {
-        max-width: 50%;
-        font-size: 0.83rem;
-        color: #9a9a9a;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-    .item_heard {
-      line-height: 1.67rem;
-      font-size: 1rem;
-      color: #323232;
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-
-      .item_heard_title {
-        font-size: 1.17rem;
-        font-weight: 600;
-        width: 70%;
-      }
-    }
-    .item_time {
-      font-size: 1rem;
-      color: #3b4045;
-      margin: 0.33rem 0;
-    }
-    .fenge {
-      border-bottom: 0.03rem solid #eeeff3;
-      margin-top: 0.5rem;
-    }
-    .item_bottom {
-      padding: 0.5rem;
-      display: flex;
-      color: #485985;
-      align-items: center;
-    }
-    .newbottom {
-      margin-top: 0.67rem;
-      display: flex;
-      justify-content: space-between;
-      .item_img {
-        // display: flex;
-        // align-items: center;
-        font-size: 1.17rem;
-        width: 80%;
-        img {
-          border-radius: 50%;
-          width: 2.67rem;
-          height: 2.67rem;
-          margin-right: 0.33rem;
-        }
-        span {
-          font-size: 0.83rem;
-          display: inline-block;
-          border-radius: 50%;
-          width: 2.67rem;
-          height: 2.67rem;
-          line-height: 2.67rem;
-          text-align: center;
-          background-color: #387ef5;
-          color: #fff;
-        }
-
-        color: #000000;
-
-        .newbottom_item {
-          width: 50%;
-          display: flex;
-          align-items: center;
-          font-size: 0.83rem;
-          img {
-            border-radius: 50%;
-            width: 1.67rem;
-            height: 1.67rem;
-            margin-right: 0.33rem;
-          }
-          span {
-            font-size: 0.67rem;
-            display: inline-block;
-            border-radius: 50%;
-            width: 1.67rem;
-            height: 1.67rem;
-            line-height: 1.67rem;
-            text-align: center;
-            background-color: #387ef5;
-            color: #fff;
-          }
-
-          .item_img_title2 {
-            font-size: 0.67rem;
-            color: #9f99a1;
-          }
-        }
       }
     }
   }

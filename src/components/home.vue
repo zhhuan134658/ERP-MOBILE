@@ -64,7 +64,7 @@ export default {
 
       gifshow: true,
       stoptime: false,
-      // cid: 'dingea47c602975497f935c2f4657eb6378f',
+
       cid: "",
       userId: "",
       code: "",
@@ -91,15 +91,7 @@ export default {
         });
       });
     },
-    //测试
-    framework1() {
-      const _this = this;
-      _this.$store.commit("setCid", "dingea47c602975497f935c2f4657eb6378f");
-      _this.$store.commit("setUid", "1955162522782338");
-      _this.$store.commit("setValue", "公司名");
-      _this.$store.commit("setUrid", "5");
-      _this.$store.commit("setName", "张欢欢");
-    },
+
     GetQueryString(name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
       var r = window.location.search.substr(1).match(reg);
@@ -133,7 +125,7 @@ export default {
             var code = info.code; // 通过该免登授权码可以获取用户身份             console.log(code)
             _this.code = code;
             _this.$axios
-              .post("/user/userinfo", {
+              .post("/erp_user/userinfo", {
                 code: code,
                 corp_id: cid,
               })
@@ -221,8 +213,8 @@ export default {
       console.log("123456");
       const _this = this;
       _this.$axios
-        .post("/user/userinfo", {
-          corp_id: "dinga090000f57c90b3eee0f45d8e4f7c288",
+        .post("/erp_user/userinfo", {
+          corp_id: "dingea47c602975497f935c2f4657eb6378f",
           code: "",
         })
         .then((res) => {
@@ -253,15 +245,9 @@ export default {
             // });
             _this.getTypeCreate();
             _this.getreateRoles();
-            if (res.data.data.content.jobnumber == 0) {
-              //   _this.$router.replace({
-              //     path: "/first",
-              //   });
-            } else {
-              _this.$router.replace({
-                path: "/application",
-              });
-            }
+            _this.$router.replace({
+              path: "/application",
+            });
           } else if (res.data.code == 2) {
             _this.$router.replace({
               path: "/wuquanxian",
@@ -332,7 +318,6 @@ export default {
         })
         .then((res) => {
           if (res.data.code == 1) {
-            // this.workList = res.data.data;
             this.$store.commit("setworklist", res.data.data);
           } else {
             Toast(res.data.msg);
@@ -372,23 +357,20 @@ export default {
   mounted() {},
   created() {
     const that = this;
-
+    console.log("123", process.env.VUE_APP_AUTH_CODE);
     if (process.env.VUE_APP_AUTH_CODE == 666) {
       Toast("测试环境");
       //   that.$store.commit("setCid", "dinga090000f57c90b3eee0f45d8e4f7c288");
-        that.$store.commit("setCid", "ding958cdfb717ce33bb35c2f4657eb6378f");
-        that.login();
-    //   that.framework();
+      that.$store.commit("setCid", "dingea47c602975497f935c2f4657eb6378f");
+      that.login();
+      //   that.framework();
     } else {
       that.framework();
     }
-    that.dingding();
-    // that.getxmList();
+    // that.dingding();
+
     that.getxmstatus();
     that.getxmtype();
-
-    // this.getList();
-    // that.$router.push({ path: '/application' });
   },
 };
 </script>

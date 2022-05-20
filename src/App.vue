@@ -51,7 +51,7 @@
         </template>
       </van-tabbar-item>
 
-      <van-tabbar-item to="/taskindex">
+      <!-- <van-tabbar-item to="/taskindex">
         <span>任务</span>
         <template #icon="props4">
           <img
@@ -59,7 +59,7 @@
             :src="props4.active ? icon4.active : icon4.inactive"
           />
         </template>
-      </van-tabbar-item>
+      </van-tabbar-item> -->
 
       <van-tabbar-item to="/member">
         <span>我的</span>
@@ -75,9 +75,6 @@
 </template>
 
 <script>
-import * as dd from "dingtalk-jsapi";
-import axios from "axios";
-import qs from "qs";
 export default {
   data() {
     return {
@@ -164,15 +161,15 @@ export default {
 
           this.active = 1;
           break;
-        case "/taskindex":
-          this.tabbarshow = true;
-          this.claldivshpw = true;
-          this.active = 2;
-          break;
+        // case "/taskindex":
+        //   this.tabbarshow = true;
+        //   this.claldivshpw = true;
+        //   this.active = 2;
+        //   break;
         case "/member":
           this.tabbarshow = true;
           this.claldivshpw = true;
-          this.active = 3;
+          this.active = 2;
           break;
         default:
           this.tabbarshow = false;

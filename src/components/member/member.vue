@@ -51,7 +51,7 @@
           <img src="../../../static/images/4.png" alt="" />
         </div>
       </div> -->
-      <div class="body_item" @click="goyujing">
+      <!-- <div class="body_item" @click="goyujing">
         <div class="item_font">
           <img
             style="vertical-align: middle"
@@ -63,8 +63,8 @@
         <div class="item_img">
           <img src="../../../static/images/4.png" alt="" />
         </div>
-      </div>
-      <div class="body_item" @click="godingdan">
+      </div> -->
+      <!-- <div class="body_item" @click="godingdan">
         <div class="item_font">
           <img
             style="vertical-align: middle"
@@ -76,7 +76,7 @@
         <div class="item_img">
           <img src="../../../static/images/4.png" alt="" />
         </div>
-      </div>
+      </div> -->
       <div class="body_item" @click="goxiaoxi">
         <div class="item_font">
           <img

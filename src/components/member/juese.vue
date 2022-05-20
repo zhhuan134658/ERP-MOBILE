@@ -2,7 +2,7 @@
   <div id="juese">
     <div class="content" v-for="(item, index) in systemList" :key="index">
       <div class="item_font" style="width: 70%">
-        {{ item.name }}
+        {{ item.name }}({{ item.num }})
       </div>
       <div
         v-if="item.name != '管理员'"
@@ -10,9 +10,6 @@
         @click="caozuo(item.id)"
       >
         操作
-        <!-- <span @click="editjuese(item.id)">重命名</span>
-        &nbsp;
-        <span style="color: #f56c6c" @click="delejuese(item.id)">删除</span> -->
       </div>
     </div>
 
@@ -180,9 +177,11 @@ export default {
     editconfirm() {
       if (this.editname) {
         this.$axios
-          .post("/finance/role_alter", {
+          .post("/erp_check/updateqxuser", {
             id: this.editid,
             name: this.editname,
+            corp_id: this.$store.state.userData.cid,
+            type: "update",
           })
           .then((res) => {
             if (res.data.code == 1) {
@@ -200,9 +199,13 @@ export default {
 
     //角色列表
     getsystem() {
-      this.$axios.post("/finance/rolelist").then((res) => {
-        this.systemList = res.data.content;
-      });
+      this.$axios
+        .post("/erp_check/qxuserlist", {
+          corp_id: this.$store.state.userData.cid,
+        })
+        .then((res) => {
+          this.systemList = res.data.data;
+        });
     },
     //新增角色
     newadd() {
@@ -221,8 +224,10 @@ export default {
       })
         .then(() => {
           this.$axios
-            .post("/finance/roledel", {
+            .post("/erp_check/updateqxuser", {
+              corp_id: this.$store.state.userData.cid,
               id: id,
+              type: "delete",
             })
             .then((res) => {
               if (res.data.code == 1) {

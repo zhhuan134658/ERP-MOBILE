@@ -41,9 +41,13 @@ export default {
     },
 
     getsystem() {
-      this.$axios.post("/finance/rolelist").then((res) => {
-        this.systemList = res.data.content;
-      });
+      this.$axios
+        .post("/erp_check/qxuserlist", {
+          corp_id: this.$store.state.userData.cid,
+        })
+        .then((res) => {
+          this.systemList = res.data.data;
+        });
     },
   },
   created() {
